@@ -24,7 +24,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 /** @var Router $router */
 
-$router->group(['prefix' => '/categories'], function (Router $router) {
+$router->group(['prefix' => '/admin/categories'], function (Router $router) {
     $router->get('/', [
         'as' => 'admin.category.index',
         'uses' => 'CategoryController@index',
@@ -40,16 +40,16 @@ $router->group(['prefix' => '/categories'], function (Router $router) {
         'uses' => 'CategoryController@update',
 //        'middleware' => 'can:profile.frontenduserinfos.edit'
     ]);
-//    $router->post('frontendusers', [
-//        'as' => 'admin.profile.frontenduser.store',
-//        'uses' => 'FrontendUserController@store',
-//        'middleware' => 'can:profile.frontendusers.create'
-//    ]);
-//    $router->post('frontendusers', [
-//        'as' => 'admin.profile.frontenduser.store',
-//        'uses' => 'FrontendUserController@store',
-//        'middleware' => 'can:profile.frontendusers.create'
-//    ]);
+    $router->get('categories/create', [
+        'as' => 'admin.categories.categories.create',
+        'uses' => 'CategoryController@create',
+//        'middleware' => 'can:jobnews.jobnews.create'
+    ]);
+    $router->post('categories', [
+        'as' => 'admin.categories.categories.store',
+        'uses' => 'CategoryController@store',
+//        'middleware' => 'can:jobnews.jobnews.create'
+    ]);
     $router->delete('/{category}', [
         'as' => 'admin.category.destroy',
         'uses' => 'CategoryController@destroy',

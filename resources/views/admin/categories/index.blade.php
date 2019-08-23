@@ -81,15 +81,15 @@
     <div class="container">
         <div class="row">
             <div class="col-md-6 clearfix">
-                <input type="text" name="search-box" id="search-box" class="float-left">
+                <input type="text" name="search-box" id="search-box" class="float-md-left">
             </div>
             <div class="col-md-6 clearfix">
-                <button href="javascript:void(0)" class="btn btn-success float-right" id="btn-create">
+                <button href="javascript:void(0)" class="btn btn-success float-md-right" id="btn-create">
                     <i class="fas fa-plus-circle"></i> Create
                 </button>
             </div>
         </div>
-        <div class="row justify-content-center">
+        <div class="row justify-content-center mt-5">
             <div class="col-md-8">
                 <div class="table-responsive">
                     <table class="data-table table table-bordered table-hover">
@@ -101,7 +101,7 @@
                             <th>Actions</th>
                         </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="tbl-body">
                         @if (isset($categories))
                             @foreach ($categories as $category)
                                 <tr id="cate_id_{{ $category->id }}">
@@ -150,6 +150,7 @@
                         </tfoot>
                     </table>
                     <!-- /.box-body -->
+                    {{--                    {{ $categories->link() }}--}}
                 </div>
             </div>
         </div>
@@ -169,65 +170,89 @@
                 // click btn-create
                 $('#btn-create').click(function () {
                     $('#modal-form').trigger("reset");
-                    $('.modal-header').addClass('bg-success');
+                    $('.modal-header').addClass('bg-success').removeClass('bg-danger bg-primary');
                     $('#modal-header-title').html("Create");
                     $('#action_button').html("Create").val("create")
+                        .removeClass('btn-primary btn-danger')
                         .addClass('btn btn-success')
                         .prepend($("<i class='fas fa-plus-circle'></i>"));
                     $('#modal-box').modal('show');
                 });
 
                 /* When click edit user */
-                $('.btn-edit').click(function () {
-                    var categoryId = $(this).data('id');
-                    console.log(categoryId);
-                    $.ajax({
-                        url: '/admin/categories/' + categoryId + '/edit',
-                        dataType: "json",
-                        success(html) {
-                            $('#name').val(html.data.name);
-                            $('#cate_id').val(html.data.id);
-                            $('#modal-header-title').text("Edit");
-                            $('#action_button').val("edit");
-                            $('#action').val("Edit");
-                            $('#modal-box').modal('show');
-                        }
-                    })
-                });
-
-                /* When click edit user */
                 // $('.btn-edit').click(function () {
                 //     var categoryId = $(this).data('id');
-                //     $.get('/admin/categories/' + categoryId + '/edit', function (data) {
-                //         $('.modal-header').addClass('bg-primary');
-                //         $('#modal-header-title').html("Edit");
-                //         $('#action_button').html("Edit").val("edit").addClass('btn btn-primary')
-                //             .prepend($("<i class='fa fa-pencil'></i>"));
-                //         $('#modal-box').modal('show');
-                //         $('#cate_id').val(data.id);
-                //         $('#name').val(data.name);
+                //     console.log(categoryId);
+                //     $.ajax({
+                //         url: '/admin/categories/' + categoryId + '/edit',
+                //         dataType: "json",
+                //         success(html) {
+                //             $('#name').val(html.data.name);
+                //             $('#cate_id').val(html.data.id);
+                //             $('.modal-header').addClass('bg-primary').removeClass('bg-success bg-danger');
+                //             $('#modal-header-title').text("Edit");
+                //             $('#action_button').text('Edit').val("edit")
+                //                 .removeClass('btn-success btn-danger')
+                //                 .addClass('btn btn-primary')
+                //                 .prepend($("<i class='fa fa-pencil'></i>"));
+                //             $('#action').val("edit");
+                //             $('#modal-box').modal('show');
+                //         }
                 //     })
                 // });
 
-                {{--$('.btn-edit').click(function () {--}}
-                {{--    var id = $(this).attr('id');--}}
-                {{--    $('#form_result').html('');--}}
-                {{--    $.ajax({--}}
-                {{--        url: "/ajax-crud/" + id + "/edit",--}}
-                {{--        dataType: "json",--}}
-                {{--        success: function (html) {--}}
-                {{--            $('#first_name').val(html.data.first_name);--}}
-                {{--            $('#last_name').val(html.data.last_name);--}}
-                {{--            $('#store_image').html("<img src={{ URL::to('/') }}/images/" + html.data.image + " width='70' class='img-thumbnail' />");--}}
-                {{--            $('#store_image').append("<input type='hidden' name='hidden_image' value='" + html.data.image + "' />");--}}
-                {{--            $('#hidden_id').val(html.data.id);--}}
-                {{--            $('.modal-title').text("Edit New Record");--}}
-                {{--            $('#action_button').val("Edit");--}}
-                {{--            $('#action').val("Edit");--}}
-                {{--            $('#formModal').modal('show');--}}
-                {{--        }--}}
-                {{--    })--}}
-                {{--});--}}
+                /* When click edit user */
+                $('.btn-edit').click(function () {
+                    var categoryId = $(this).data('id');
+                    console.log(categoryId);
+                    $.get('/admin/categories/' + categoryId + '/edit', function (html) {
+                        $('#name').val(html.name);
+                        $('#cate_id').val(html.id);
+                        $('.modal-header').addClass('bg-primary').removeClass('bg-success bg-danger');
+                        $('#modal-header-title').text("Edit");
+                        $('#action_button').text('Edit').val("edit")
+                            .removeClass('btn-success btn-danger')
+                            .addClass('btn btn-primary')
+                            .prepend($("<i class='fa fa-pencil'></i>"));
+                        $('#modal-box').modal('show');
+                    })
+                });
+
+                /* store data when CREATE or UPDATE*/
+                $('#action_button').click(function () {
+                    var actionType = $('#action_button').val();
+                    $.ajax({
+                        data: $('#modal-form').serialize(),
+                        url: "{{ route('admin.category.store') }}",
+                        type: "POST",
+                        dataType: 'json',
+
+                        success: function (data) {
+                            var category = '<tr id="cate_id_' + data.id + '"><td>' + data.id + '</td><td>'
+                                + data.name + '</td>';
+                            category += '<td><a href="javascript:void(0)" id="' + data.id + '" ' +
+                                'data-id="' + data.id + '" ' + 'class="btn btn-primary btn-edit">' +
+                                '<i class="fa fa-pencil"></i></a></td>';
+                            category += '<td><a href="javascript:void(0)" id="' + data.id + '" ' +
+                                'data-id="' + data.id + '" ' + 'class="btn btn-danger btn-delete">' +
+                                '<i class="fa fa-trash"></i></a></td>' + '</tr>';
+
+                            if (actionType === "create") {
+                                $('#tbl-body').prepend(category);
+                            } else {
+                                $("#cate_id_" + data.id).replaceWith(category);
+                            }
+
+                            $('#modal-form').trigger("reset");
+                            $('#modal-box').modal('hide');
+                        },
+
+                        error: function (data) {
+                            console.error();
+                            // console.log('Error:', data);
+                        }
+                    });
+                });
 
                 // click btn-delete
                 $('.btn-delete').click(function () {

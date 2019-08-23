@@ -54,25 +54,14 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-////        dd($request);
-//        $name = $request->name;
-//        $category = $this->category->updateOrCreate(['name' => $name]);
-////        return response()->json($category);
-//        $rules = array(
-//            'name' => 'require'
-//        );
-//        $error = $this->validator->make($request->all(), $rules);
-//        if ($error->fails()) {
-//            return response()->json(['errors' => $error->errors()->all()]);
-//        }
-//        $formData = array(
-//            'name' => $request->name
-//        );
-//        AjaxCrud::create($formData);
-//        return \response()->json(['success' => 'Data added successfuly']);
+//        dd($request);
+//        $userId = $request->user_id;
+//        $user = User::updateOrCreate(['id' => $userId],
+//            ['name' => $request->name, 'email' => $request->email]);
+//        return Response::json($user);
+
         $this->category->create($request->all());
         return redirect()->route('admin.category.index');
-//            ->withSuccess(trans('core::core.messages.resource created', ['name' => trans('jobnews::jobnews.title.jobnews')]));
     }
 
     /**
@@ -93,11 +82,10 @@ class CategoryController extends Controller
 //            $data = AjaxCrud::findOrFail($id);
 //            return \response()->json(['data' => $data]);
 //        }
-//        $where = array('id' => $id);
-////        dd($where);
-//        $user = Category::where($where)->first();
-//
-//        return Response::json($user);
+        $where = array('id' => $id);
+        dd($where);
+        $user = User::where($where)->first();
+        return Response::json($user);
     }
 
     /**
@@ -111,8 +99,7 @@ class CategoryController extends Controller
     {
         $this->category->update($category, $request->all());
 
-        return redirect()->route('admin.category.index')/*
-            ->withSuccess(trans('core::core.messages.resource updated', ['name' => trans('membercv::membercvs.title.membercvs')]))*/ ;
+        return redirect()->route('admin.category.index');
     }
 
     /**
@@ -126,7 +113,6 @@ class CategoryController extends Controller
 //        dd($category);
         $this->category->destroy($category);
 
-        return redirect()->route('admin.category.index')/*
-            ->withSuccess(trans('core::core.messages.resource deleted', ['name' => trans('membercv::membercvs.title.membercvs')]))*/ ;
+        return redirect()->route('admin.category.index');
     }
 }

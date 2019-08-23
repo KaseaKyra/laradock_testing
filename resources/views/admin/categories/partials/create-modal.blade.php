@@ -17,7 +17,7 @@
                     <span id="form_result"></span>
                     <div class="form-group">
                         <label for="name">Name:</label>
-                        {!! Form::text('name', '', ['class'=>'form-control', 'required', 'id'=>'name']) !!}
+                        {!! Form::text('name', '', ['class'=>'form-control', 'id'=>'name']) !!}
                     </div>
                 </div>
                 <div class="modal-footer">

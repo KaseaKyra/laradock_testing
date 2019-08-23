@@ -37,6 +37,40 @@ class CategoryController extends Controller
     }
 
     /**
+     * Search following keyword
+     *
+     * @param Request $request
+     * @return void
+     */
+    public function search(Request $request)
+    {
+        if ($request->ajax()) {
+            $output = "";
+            $categories = $this->category->where('name', 'LIKE', '%' . $request->search . "%")->get();
+            if ($categories) {
+                foreach ($categories as $key => $category) {
+                    $output .= '<tr>' .
+                        '<td>' . $category->id . '</td>' .
+                        '<td>' . $category->name . '</td>' .
+                        '<td>' . $category->created_at . '</td>' .
+                        '<td>' . '<div class="btn-group"><button href="javascript:void(0)" class="btn btn-primary btn-edit"
+                            id="' . $category->id . '" data-id="' . $category->id . '">
+                            <i class="fa fa-pencil"></i></button>' .
+                        '<button href="javascript:void(0)" class="btn btn-danger btn-delete"
+                                id="' . $category->id . '" data-id="' . $category->id . '">
+                                <i class="fa fa-trash"></i></button></div>' .
+                        '</td>' .
+                        '</tr>';
+                }
+                return Response($output);
+            }
+        }
+//        dd($request);
+//        $search = $request->search;
+//        $this->category->search($request, $search);
+    }
+
+    /**
      * Show the form for creating a new resource.
      *
      * @return Response

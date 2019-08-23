@@ -81,7 +81,10 @@
     <div class="container">
         <div class="row">
             <div class="col-md-6 clearfix">
-                <input type="text" name="search-box" id="search-box" class="float-md-left">
+                <div id="form-group">
+                    <input type="text" name="search" id="search" class="float-md-left form-control"
+                           placeholder="Enter category name">
+                </div>
             </div>
             <div class="col-md-6 clearfix">
                 <button href="javascript:void(0)" class="btn btn-success float-md-right" id="btn-create">
@@ -93,7 +96,7 @@
             <div class="col-md-8">
                 <div class="table-responsive">
                     <table class="data-table table table-bordered table-hover">
-                        <thead>
+                        <thead class="thead-dark">
                         <tr>
                             <th>ID</th>
                             <th>Name</th>
@@ -165,6 +168,19 @@
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     }
+                });
+
+                // search keyword following
+                $('#search').on('keyup', function () {
+                    $keyword = $(this).val();
+                    $.ajax({
+                        type: 'GET',
+                        url: '{{ route('admin.category.search') }}',
+                        data: {'search': $keyword},
+                        success: function (data) {
+                            $('tbody').html(data);
+                        }
+                    });
                 });
 
                 // click btn-create

@@ -12,7 +12,7 @@ class Category extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'father_id',
+        'name',
     ];
 
     public function post()

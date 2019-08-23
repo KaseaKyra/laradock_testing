@@ -35,18 +35,18 @@ $router->group(['prefix' => '/admin/categories'], function (Router $router) {
         'uses' => 'CategoryController@edit',
 //        'middleware' => 'can:membercv.membercvs.edit'
     ]);
-    $router->put('/{category}', [
+    $router->patch('/{category}', [
         'as' => 'admin.category.update',
         'uses' => 'CategoryController@update',
 //        'middleware' => 'can:profile.frontenduserinfos.edit'
     ]);
     $router->get('categories/create', [
-        'as' => 'admin.categories.categories.create',
+        'as' => 'admin.category.create',
         'uses' => 'CategoryController@create',
 //        'middleware' => 'can:jobnews.jobnews.create'
     ]);
     $router->post('categories', [
-        'as' => 'admin.categories.categories.store',
+        'as' => 'admin.category.store',
         'uses' => 'CategoryController@store',
 //        'middleware' => 'can:jobnews.jobnews.create'
     ]);
@@ -54,6 +54,18 @@ $router->group(['prefix' => '/admin/categories'], function (Router $router) {
         'as' => 'admin.category.destroy',
         'uses' => 'CategoryController@destroy',
 //        'middleware' => 'can:profile.frontenduserinfos.destroy'
+    ]);
+});
+
+$router->group(['prefix' => '/admin/users'], function (Router $router) {
+    $router->get('/users', [
+        'as' => 'admin.user.index',
+        'uses' => 'UserController@index',
+    ]);
+    $router->get('/{user}/edit', [
+        'as' => 'admin.user.edit',
+        'uses' => 'UserController@edit',
+//        'middleware' => 'can:membercv.membercvs.edit'
     ]);
 });
 

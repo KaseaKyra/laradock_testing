@@ -20,12 +20,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 $api = app('Dingo\Api\Routing\Router');
 
 $api->version('v1', function ($api) {
-    $api->get('/test', function () {
-        return 'It is ok';
-    });
     $api->get('/categories', [
-        'as' => 'admin.category.index',
-        'uses' => 'App/Http/Controllers/CategoryController@index'
+        'as' => 'admin.categories.index',
+        'uses' => 'App/Http/Controllers/Api/CategoryController@index'
     ]);
 });
 

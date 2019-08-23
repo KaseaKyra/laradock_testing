@@ -13,6 +13,8 @@
         rel="stylesheet">
     <link href="{{ asset('/themes/sb-admin-2/css/sb-admin-2.min.css') }}" rel="stylesheet">
     <link href="{{ asset('/themes/sb-admin-2/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+          integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 </head>
 <body id="page-top">
 <!-- Page Wrapper -->
@@ -28,34 +30,15 @@
         @include('admin.partials.footer')
     </div>
 </div>
-<!-- Scroll to Top Button-->
-<a class="scroll-to-top rounded" href="#page-top">
-    <i class="fas fa-angle-up"></i>
-</a>
-<!-- Logout Modal-->
-<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-     aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
-            </div>
-            <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                <a class="btn btn-primary" href="login.html">Logout</a>
-            </div>
-        </div>
-    </div>
-</div>
-<script
-    src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-    integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8="
-    crossorigin="anonymous"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+{{--<script--}}
+{{--    src="https://code.jquery.com/jquery-3.4.1.slim.min.js"--}}
+{{--    integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8="--}}
+{{--    crossorigin="anonymous"></script>--}}
+{{--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>--}}
 <script src="{{ asset('/themes/sb-admin-2/vendor/jquery/jquery.min.js') }}" defer></script>
 <script src="{{ asset('/themes/sb-admin-2/vendor/bootstrap/js/bootstrap.bundle.min.js') }}" defer></script>
 <script src="{{ asset('/themes/sb-admin-2/vendor/jquery-easing/jquery.easing.min.js') }}" defer></script>
@@ -63,19 +46,6 @@
 {{--<script src="{{ asset('/themes/sb-admin-2/vendor/chart.js/Chart.min.js') }}" defer></script>--}}
 {{--<script src="{{ asset('/themes/sb-admin-2/js/demo/chart-area-demo.js') }}" defer></script>--}}
 {{--<script src="{{ asset('/themes/sb-admin-2/js/demo/chart-pie-demo.js') }}" defer></script>--}}
+@stack('custom-scripts')
 </body>
 </html>
-
-@push('js-stack')
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('.collapse-item').click(function (event) {
-                // Avoid the link click from loading a new page
-                event.preventDefault();
-                // Load the content from the link's href attribute
-                $('#main-content').load($(this).attr('href'));
-            });
-        });
-    </script>
-@endpush
-

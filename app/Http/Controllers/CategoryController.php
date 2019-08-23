@@ -6,15 +6,19 @@ use App\Category;
 use App\Transformers\CategoryTransformers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Validation\Validator;
+use Illuminate\Support\Facades\Redirect;
 
 class CategoryController extends Controller
 {
 
     private $category;
+    private $validator;
 
     /**
      * CategoryController constructor.
      * @param Category $category
+     * @param Validator $validator
      */
     public function __construct(Category $category)
     {
@@ -50,8 +54,23 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
+////        dd($request);
+//        $name = $request->name;
+//        $category = $this->category->updateOrCreate(['name' => $name]);
+////        return response()->json($category);
+//        $rules = array(
+//            'name' => 'require'
+//        );
+//        $error = $this->validator->make($request->all(), $rules);
+//        if ($error->fails()) {
+//            return response()->json(['errors' => $error->errors()->all()]);
+//        }
+//        $formData = array(
+//            'name' => $request->name
+//        );
+//        AjaxCrud::create($formData);
+//        return \response()->json(['success' => 'Data added successfuly']);
         $this->category->create($request->all());
-
         return redirect()->route('admin.category.index');
 //            ->withSuccess(trans('core::core.messages.resource created', ['name' => trans('jobnews::jobnews.title.jobnews')]));
     }
@@ -62,9 +81,23 @@ class CategoryController extends Controller
      * @param Category $category
      * @return Response
      */
-    public function edit(Category $category)
+    public function edit($id)
     {
-        return view('admin.categories.edit', compact('category'));
+//        dd($category);
+//        return view('admin.categories.edit', compact('category'));
+//        if($request()->ajax()) {
+//
+//        }
+
+//        if ($request()->ajax()) {
+//            $data = AjaxCrud::findOrFail($id);
+//            return \response()->json(['data' => $data]);
+//        }
+//        $where = array('id' => $id);
+////        dd($where);
+//        $user = Category::where($where)->first();
+//
+//        return Response::json($user);
     }
 
     /**
